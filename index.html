@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+<head>
+  <script>
+    var socket = new WebSocket("ws://localhost:8083/autorefresh?test=one", "protocolOne");
+    socket.onopen = function (event) {
+      console.log("socket open")
+    };
+
+    socket.onmessage = function (event) {
+      console.log("message:"+ event.data + " " + (new Date()));
+    };
+
+  </script>
+</head>
+<body>
+<h3>websocket test</h3>
+
+</body>
+</html>
