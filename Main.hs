@@ -7,6 +7,7 @@ import Network.WebSockets
 import Network.Wai.Handler.WebSockets
 import Network.Wai
 import Data.Text
+import Data.Time
 import qualified Data.Text.Encoding as T
 import Data.Monoid
 import Network.HTTP.Types
@@ -40,14 +41,17 @@ app = \req respond ->
     wsApp req pending_conn = do
         conn <- acceptRequest pending_conn
         putStrLn "Connected"
+        time <- getCurrentTime
         let path :: B8.ByteString
             path = rawPathInfo req
             query = rawQueryString req
-            msg = "Hello, client from " <> path <> " " <> query
+            clientName =  "client [" <> path <> " " <> query <> "]"
+            msg = "hello, " <> clientName
         B8.putStrLn msg 
         fix $ \loop -> do
           -- poll database here for updates
-          putStrLn "Sending message"
+          t2 <- getCurrentTime
+          putStrLn $ "Sending message to " <> B8.unpack clientName <> " at " <> ( show t2)
           sendTextData conn (T.decodeUtf8 msg)
           threadDelay 1000000
 
