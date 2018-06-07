@@ -1,0 +1,7 @@
+
+
+sudo apt install golang-go
+
+go get github.com/raphael/wsc
+
+wsc -o http://websocket.org -H "Sample-Header-1: foo" -H "Sample-Header-2: bar" -u ws://echo.websocket.org
